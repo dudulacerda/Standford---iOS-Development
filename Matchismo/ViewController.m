@@ -7,23 +7,42 @@
 //
 
 #import "ViewController.h"
+#import "PlayingCardDeck.h"
 
 @interface ViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
+@property (nonatomic) int flipCount;
+@property (strong, nonatomic) PlayingCardDeck *baralhoJogo;
 
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad
+-(void)setFlipCount:(int)flipCount
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    _flipCount = flipCount;
+    NSString *texto = [NSString stringWithFormat:@"Flips: %d",self.flipCount];
+    [self.flipsLabel setText:texto];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)flipCard:(UIButton *)sender {
+    
+    if (sender.isSelected) {
+        
+        [sender setSelected:NO];
+    } else {
+        [sender setSelected:YES];
+        NSString *valorCarta = [[self.baralhoJogo drawRandomCard] contents];
+        [sender setTitle:valorCarta forState:UIControlStateSelected];
+    }
+    
+    self.flipCount++;
+
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    self.baralhoJogo = [[PlayingCardDeck alloc] init];
+}
 @end
