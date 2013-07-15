@@ -14,10 +14,36 @@
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
 @property (nonatomic) int flipCount;
 @property (strong, nonatomic) PlayingCardDeck *baralhoJogo;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
 @end
 
 @implementation ViewController
+
+
+-(PlayingCardDeck *)baralhoJogo
+{
+    if (!_baralhoJogo) {
+        _baralhoJogo = [[PlayingCardDeck alloc]init];       //Chama o init de PlayingCardDeck, gerando um
+                                                            //baralho com 52 cartas
+    }
+    
+    return _baralhoJogo;
+}
+
+
+
+    // Setter para o Array de Cartas da View
+    // For para cada carta do Array, busca uma carta aleatória do baralhoJogo(Lazy instaciation)
+    // Método executado somente uma vez (pelo próprio iOS), assim cada carta só recebe um valor
+-(void)setCardButtons:(NSArray *)cardButtons
+{
+    _cardButtons = cardButtons;
+    for (UIButton *cardButton in cardButtons) {
+        Card *card = [self.baralhoJogo drawRandomCard];
+        [cardButton setTitle:card.contents forState:UIControlStateSelected];
+    }
+}
 
 -(void)setFlipCount:(int)flipCount
 {
@@ -28,21 +54,8 @@
 
 - (IBAction)flipCard:(UIButton *)sender {
     
-    if (sender.isSelected) {
-        
-        [sender setSelected:NO];
-    } else {
-        [sender setSelected:YES];
-        NSString *valorCarta = [[self.baralhoJogo drawRandomCard] contents];
-        [sender setTitle:valorCarta forState:UIControlStateSelected];
-    }
-    
+    sender.selected = !sender.isSelected;
     self.flipCount++;
 
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    self.baralhoJogo = [[PlayingCardDeck alloc] init];
 }
 @end
