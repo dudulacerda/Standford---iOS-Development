@@ -8,42 +8,57 @@
 
 #import "ViewController.h"
 #import "PlayingCardDeck.h"
+#import "CardMatchingGame.h"
 
 @interface ViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (nonatomic) int flipCount;
-@property (strong, nonatomic) PlayingCardDeck *baralhoJogo;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (strong, nonatomic) CardMatchingGame *game;
 
 @end
 
 @implementation ViewController
 
 
--(PlayingCardDeck *)baralhoJogo
+
+-(CardMatchingGame *)game       //Lazy Instantiation
 {
-    if (!_baralhoJogo) {
-        _baralhoJogo = [[PlayingCardDeck alloc]init];       //Chama o init de PlayingCardDeck, gerando um
-                                                            //baralho com 52 cartas
+    if (!_game) {
+        _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+                                                  usingDeck:[[PlayingCardDeck alloc] init]];    //Aloca o Baralho só nesse método
     }
-    
-    return _baralhoJogo;
-}
+    return _game;
+}   
 
 
-
-    // Setter para o Array de Cartas da View
-    // For para cada carta do Array, busca uma carta aleatória do baralhoJogo(Lazy instaciation)
-    // Método executado somente uma vez (pelo próprio iOS), assim cada carta só recebe um valor
 -(void)setCardButtons:(NSArray *)cardButtons
 {
     _cardButtons = cardButtons;
-    for (UIButton *cardButton in cardButtons) {
-        Card *card = [self.baralhoJogo drawRandomCard];
-        [cardButton setTitle:card.contents forState:UIControlStateSelected];
-    }
+    [self updateUI];
 }
+
+
+-(void)updateUI
+{
+    for (UIButton *cardButton in self.cardButtons) {
+        Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
+        [cardButton setTitle:card.contents forState:UIControlStateSelected];
+        [cardButton setTitle:card.contents forState:UIControlStateSelected|UIControlStateDisabled];
+        
+        cardButton.selected = card.isFaceUp;
+        cardButton.enabled = !card.isUnplayable;
+        cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
+    }
+    
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+    
+    
+    
+}
+
 
 -(void)setFlipCount:(int)flipCount
 {
@@ -54,8 +69,9 @@
 
 - (IBAction)flipCard:(UIButton *)sender {
     
-    sender.selected = !sender.isSelected;
+    [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];    //Usa o CardMatching game flip e passa o botao(carta)
     self.flipCount++;
+    [self updateUI];             //Faz o update cada vez que uma carta é virada
 
 }
 @end

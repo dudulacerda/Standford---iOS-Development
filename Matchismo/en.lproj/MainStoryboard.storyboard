@@ -199,11 +199,19 @@
                                     <action selector="flipCard:" destination="2" eventType="touchUpInside" id="dvk-e0-jZd"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Score:  " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zRR-nq-wBb">
+                                <rect key="frame" x="223" y="419" width="94" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="flipsLabel" destination="13M-jn-p08" id="dsu-xw-Pyy"/>
+                        <outlet property="scoreLabel" destination="zRR-nq-wBb" id="ALr-5G-yqd"/>
                         <outletCollection property="cardButtons" destination="xsh-tZ-pO3" id="Gcm-9a-p8e"/>
                         <outletCollection property="cardButtons" destination="xMr-dU-LXQ" id="8ZC-z5-JFg"/>
                         <outletCollection property="cardButtons" destination="YDY-Nq-LDy" id="rNg-tD-9T8"/>
