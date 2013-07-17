@@ -11,7 +11,9 @@
 
 @interface CardMatchingGame : NSObject
 
+@property (readonly, strong, nonatomic) NSString *lastCall;
 @property (nonatomic, readonly) int score;
+
 
 -(id) initWithCardCount:(NSUInteger)cardCount
               usingDeck:(Deck *)deck;

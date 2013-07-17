@@ -17,12 +17,12 @@
 @property (nonatomic) int flipCount;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (strong, nonatomic) CardMatchingGame *game;
+@property (weak, nonatomic) IBOutlet UITextField *txtLastCall;
+
 
 @end
 
 @implementation ViewController
-
-
 
 -(CardMatchingGame *)game       //Lazy Instantiation
 {
@@ -52,11 +52,8 @@
         cardButton.enabled = !card.isUnplayable;
         cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
     }
-    
+    [self.txtLastCall setText:self.game.lastCall];
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
-    
-    
-    
 }
 
 
