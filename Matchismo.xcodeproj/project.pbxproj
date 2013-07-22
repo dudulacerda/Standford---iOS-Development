@@ -23,6 +23,7 @@
 		1036CEB5178DA11A00750B28 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1036CEB4178DA11A00750B28 /* Deck.m */; };
 		1036CEB9178DA67F00750B28 /* PlayingCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1036CEB8178DA67F00750B28 /* PlayingCard.m */; };
 		1036CEBC178DAF7300750B28 /* PlayingCardDeck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1036CEBB178DAF7300750B28 /* PlayingCardDeck.m */; };
+		10E03FD91799825E00CE4D33 /* CardBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E03FD81799825E00CE4D33 /* CardBack.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		1036CEB8178DA67F00750B28 /* PlayingCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayingCard.m; path = Model/PlayingCard.m; sourceTree = SOURCE_ROOT; };
 		1036CEBA178DAF7300750B28 /* PlayingCardDeck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayingCardDeck.h; path = Model/PlayingCardDeck.h; sourceTree = SOURCE_ROOT; };
 		1036CEBB178DAF7300750B28 /* PlayingCardDeck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayingCardDeck.m; path = Model/PlayingCardDeck.m; sourceTree = SOURCE_ROOT; };
+		10E03FD81799825E00CE4D33 /* CardBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CardBack.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 		1036CE94178D962900750B28 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				10E03FD81799825E00CE4D33 /* CardBack.png */,
 				1036CE9C178D962900750B28 /* AppDelegate.h */,
 				1036CE9D178D962900750B28 /* AppDelegate.m */,
 				1036CE95178D962900750B28 /* Matchismo-Info.plist */,
@@ -196,6 +199,7 @@
 				1036CEA2178D962900750B28 /* Default@2x.png in Resources */,
 				1036CEA4178D962900750B28 /* Default-568h@2x.png in Resources */,
 				1036CEA7178D962900750B28 /* MainStoryboard.storyboard in Resources */,
+				10E03FD91799825E00CE4D33 /* CardBack.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

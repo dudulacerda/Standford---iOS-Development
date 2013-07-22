@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UITextField *txtLastCall;
-
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segTypeGame;
 
 @end
 
@@ -51,21 +51,39 @@
         cardButton.selected = card.isFaceUp;
         cardButton.enabled = !card.isUnplayable;
         cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
+        
+        
+        
+        if (card.isFaceUp) {
+            [cardButton setBackgroundImage:nil forState:UIControlStateNormal];
+        } else {
+            [cardButton setTitle:@" " forState:UIControlStateNormal];
+            [cardButton setBackgroundImage:[UIImage imageNamed:@"CardBack.png"] forState:UIControlStateNormal];
+        }
+        
     }
+    
+    
+    
     [self.txtLastCall setText:self.game.lastCall];
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+    [self.flipsLabel setText:[NSString stringWithFormat:@"Flips: %d",self.flipCount]];
 }
 
+- (IBAction)dealButton:(UIButton *)sender {
+    _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+                                              usingDeck:[[PlayingCardDeck alloc] init]];
+    self.flipCount = 0;
+    [self.segTypeGame setEnabled:YES];
+    [self updateUI];
+}
 
--(void)setFlipCount:(int)flipCount
-{
-    _flipCount = flipCount;
-    NSString *texto = [NSString stringWithFormat:@"Flips: %d",self.flipCount];
-    [self.flipsLabel setText:texto];
+- (IBAction)selectGameMode:(UISegmentedControl *)sender {
+    [self.game setMatchMode:[self.segTypeGame selectedSegmentIndex]];
 }
 
 - (IBAction)flipCard:(UIButton *)sender {
-    
+    [self.segTypeGame setEnabled:NO];
     [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];    //Usa o CardMatching game flip e passa o botao(carta)
     self.flipCount++;
     [self updateUI];             //Faz o update cada vez que uma carta é virada

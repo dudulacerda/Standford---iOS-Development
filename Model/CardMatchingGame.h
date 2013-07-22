@@ -13,7 +13,7 @@
 
 @property (readonly, strong, nonatomic) NSString *lastCall;
 @property (nonatomic, readonly) int score;
-
+@property (nonatomic) NSInteger matchMode;
 
 -(id) initWithCardCount:(NSUInteger)cardCount
               usingDeck:(Deck *)deck;

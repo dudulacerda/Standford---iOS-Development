@@ -26,6 +26,32 @@
         }
     }
     
+    if (otherCards.count == 2) {
+        int countSuit = 0;
+        int countRank = 0;
+        
+        for (PlayingCard *otherCard in otherCards) {
+            if ([otherCard.suit isEqualToString:self.suit]) {
+                countSuit++;
+            } 
+            
+            if (otherCard.rank == self.rank){
+                countRank++;
+            }
+        }
+        
+        if (countRank == 2) {
+            score += 12;
+        } else if (countRank == 1){
+            score += 2;
+        }
+        if (countSuit == 2) {
+            score += 4;
+        } else if (countSuit == 1){
+            score += 1;
+        }
+    }
+    
     return score;
 }
 
@@ -72,6 +98,11 @@
     if (rank <= [PlayingCard maxRank]) {
         _rank = rank;
     }
+}
+
+-(NSString *)description
+{
+    return self.contents;
 }
 
 @end

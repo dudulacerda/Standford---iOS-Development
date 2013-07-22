@@ -15,6 +15,8 @@
 @property (nonatomic,readwrite) int score;
 
 
+
+
 @end
 
 @implementation CardMatchingGame
@@ -36,6 +38,8 @@
 {
     Card *card = [self cardAtIndex:index];              //Pega a carta do index passado
     
+    NSMutableArray *cardsFlipUp = [[NSMutableArray alloc]init];
+    
     if (!card.isUnplayable) {                           //Verifica se a carta é jogável
         //Se a carta estiver virada, faça a comparação
         if (!card.isFaceUp) {
@@ -43,26 +47,40 @@
             for (Card *otherCard in self.cards) {       //For para todas as cartas do Array
                 //Verifica se existe outra carta virada e jogável
                 if (otherCard.isFaceUp && !otherCard.isUnplayable) {
-                    int matchScore = [card match:@[otherCard]];      // Faz a Carta comparar com a outra do Array virada
-                    if (matchScore) {                                // Se houver match as cartas são setadas para não jogáveis
-                        self.lastCall = [NSString stringWithFormat:@"%@ match %@ for %d points",otherCard.contents,card.contents, matchScore * MATCH_BONUS];
-                        otherCard.unplayable = YES;
-                        card.unplayable = YES;
-                        self.score += matchScore * MATCH_BONUS;
-                    } else {
-                        self.lastCall = [NSString stringWithFormat:@"Missmatch %@ e %@ , %d points penalty!",otherCard.contents,card.contents, MISMATCH_PENALTY];
-                        otherCard.faceUp = NO;                       //Nao tendo match, desvira uma carta
-                        self.score -= MISMATCH_PENALTY;
-                    }
-                    break;
+                    [cardsFlipUp addObject:otherCard];
                 }
             }
+            
+            if (cardsFlipUp.count-1 == (int)self.matchMode) {
+                int matchScore = [card match:cardsFlipUp];
+                
+                if (matchScore) {
+                    for (Card *otherCard in cardsFlipUp) {
+                        otherCard.unplayable = YES;
+                    }
+                    
+                    card.unplayable = YES;
+                    self.score += matchScore * MATCH_BONUS;
+                    self.lastCall = [cardsFlipUp componentsJoinedByString:@" "];
+                    self.lastCall = [self.lastCall stringByAppendingString:[NSString stringWithFormat:@" %@: match, %d points bonus!",card.contents,matchScore * MATCH_BONUS]];
+                } else {
+                    for (Card *otherCard in cardsFlipUp) {
+                        otherCard.faceUp = NO;
+                    }
+                    self.score -= MISMATCH_PENALTY;
+                    self.lastCall = [cardsFlipUp componentsJoinedByString:@" "];
+                    self.lastCall = [self.lastCall stringByAppendingString:[NSString stringWithFormat:@" %@: no match, %d points penalty!", card.contents,MISMATCH_PENALTY]];
+                }
+            }
+            
             self.score -= FLIP_COST;
+            
         }
         card.faceUp = !card.isFaceUp;                   // Vira a Carta
     }
     
 }
+
 
 
 -(id)initWithCardCount:(NSUInteger)cardCount usingDeck:(Deck *)deck
